@@ -1,0 +1,36 @@
+.content {
+    padding-top: 10px;
+  }
+  .row {
+    display: flex;
+    gap: 10px;
+  
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  
+  .action {
+    padding: 0px 25px 20px;
+    button {
+      flex: 1;
+    }
+  }
+  .container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .container >*{
+    flex: 1 1 350px;
+  }
+  .align{
+    max-width: auto;
+    margin: 5px;
+  }
+  .card {
+    
+    width: 100%;
+    height: auto;
+    object-fit: contain
+}

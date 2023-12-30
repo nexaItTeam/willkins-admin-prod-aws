@@ -1,0 +1,127 @@
+<app-loader></app-loader>
+<section class="bg-dark card mb-4">
+    <div class="card-body p-4">
+        <form [formGroup]="ordertscForm">
+      <div class="card-list">
+        <div class="list-item row align-content-center">
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span class="list-one border-btm">Order ID: {{orderData?.order_id}}</span>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span class="border-btm">Client ID: {{orderData?.enq_client_data?.client_id}}</span>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3 text-end">
+            <li class="text-end"><button (click)="onSaveClick()" class="list-btn">Save</button></li>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span>Date: <strong>{{orderData?.createdAt | date:'dd/MM/yyyy'}}</strong></span>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span>Total amount: <strong>{{orderData?.investing_amount | currency : 'USD' : 'symbol' : '1.0-0'}}</strong></span>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span>Last amount recieved: <a class="btn-amt">{{orderData?.amount_paid | currency : 'USD' : 'symbol' : '1.0-0'}}</a></span>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span>Amount received by client: </span>
+            <input type="number" formControlName="amount_paid">
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <mat-form-field appearance="outline">
+            <span class="dropdown">  
+              <mat-label>Status</mat-label>
+              <mat-select style="color:#fff;" formControlName="paidStatus">
+              <mat-option *ngFor="let option of statusList " [value]="option.value">
+                {{option.type}}
+              </mat-option>
+            </mat-select>
+          
+          </span>
+        </mat-form-field> 
+          </div>
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span>Balance amount: <strong>{{orderData?.amount_unpaid | currency : 'USD' : 'symbol' : '1.0-0'}}</strong></span>
+          </div>
+          <!-- <div class="col-lg-4 col-md-6 mb-3">
+            <span class="list-one mr-5">
+              <input type="radio" id="Debit" name="check" value="30">
+              <label for="Debit">Debit</label>
+            </span>
+            <span>
+              <input type="radio" id="Credit" name="check" value="60">
+              <label for="Credit">Credit</label>
+            </span>
+          </div> -->
+        </div>
+      </div>
+    </form>
+    </div>
+  </section>
+  <div class="main-body">
+   
+   
+    <h4 style="color: white;">Transaction Details</h4>
+    <div class="bg-white">
+        <kendo-grid [data]="transactionData"  [pageSize]="10" [pageable]="true"
+            [resizable]="true"  >
+            <ng-template kendoGridToolbarTemplate>
+                
+                <kendo-grid-spacer></kendo-grid-spacer>
+                <button class="btn btn-info" kendoGridPDFCommand>Export to PDF</button>
+                <button class="btn btn-dark" kendoGridExcelCommand type="button">Export to Excel</button>
+            </ng-template>
+            <kendo-grid-column field="createdAt" title=" Date"> 
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.createdAt | date :'dd/MM/yyyy' }}
+                </ng-template>
+            </kendo-grid-column>
+          
+            <kendo-grid-column field="order_id" title="Order Number"
+            [class]="{ 'text-center': true }" [resizable]="true">
+            <ng-template kendoGridGroupHeaderTemplate let-group="group">
+                <span style="text-decoration: underline;">
+                  {{ group.value }}
+                </span>
+              </ng-template>
+        </kendo-grid-column>
+            <kendo-grid-column field="property_name" title="Particulars"
+            [class]="{ 'text-center': true }" [resizable]="true">
+            <ng-template kendoGridGroupHeaderTemplate let-group="group">
+                <span style="text-decoration: underline;">
+                  {{ group.value }}
+                </span>
+              </ng-template>
+        </kendo-grid-column>
+         
+        
+        <kendo-grid-column field="investing_amount" [class]="{ 'text-center': true }" title="Debit"
+        >
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+           {{ rowIndex == transactionData.length - 1 ? (dataItem.investing_amount | currency : 'USD' : 'symbol' : '1.0-0' ) : ''}} 
+       </ng-template>
+   </kendo-grid-column>
+            <kendo-grid-column field="amount_paid" title="Credit"
+            [class]="{ 'text-center': true }"  >
+                 <ng-template  kendoGridCellTemplate let-dataItem>
+                   <span style="justify-content: center;">{{dataItem.amount_paid | currency : 'USD' : 'symbol' : '1.0-0' }}</span> 
+                </ng-template>
+            </kendo-grid-column>
+           
+            <kendo-grid-column field="amount_unpaid" title="Balance"
+                [class]="{ 'text-center': true }" [resizable]="true">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                     {{dataItem.amount_unpaid > 0 ? (dataItem.amount_unpaid | currency : 'USD' : 'symbol' : '1.0-0') + ' Dr' : (dataItem.amount_unpaid == null  ? '': dataItem.amount_unpaid == 0 ?  ' $0' :  (   ( -1 * dataItem.amount_unpaid) | currency : 'USD' : 'symbol' : '1.0-0') + ' Cr'  ) }} 
+               
+                </ng-template>
+            </kendo-grid-column>
+           
+           
+           
+           
+            <kendo-grid-pdf fileName="activeClient.pdf" [repeatHeaders]="true" [allPages]="true"></kendo-grid-pdf>
+            <kendo-grid-excel fileName="activeClient.xlsx"></kendo-grid-excel>
+        </kendo-grid>
+    </div>
+</div>

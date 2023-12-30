@@ -1,0 +1,170 @@
+<div mat-dialog-title>
+    <h1>Property Form</h1>
+</div>
+<form [formGroup]="propertyForm">
+    <div mat-dialog-content>
+        <div>
+            <mat-label>Property Name</mat-label>
+            <mat-form-field appearance="outline">
+                
+                <input matInput formControlName="property_name">
+                <mat-error *ngIf="propertyForm. get('property_name')!.hasError('required')"> Please Enter property
+                    Name</mat-error>
+            </mat-form-field>
+            <mat-label>Facility</mat-label>
+            <mat-form-field appearance="outline">
+                
+                <input matInput formControlName="facility">
+                <mat-error *ngIf="propertyForm. get('facility')!.hasError('required')"> Please Enter
+                    facility</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Property address</mat-label>
+            <mat-form-field appearance="outline">
+               
+                <textarea matInput placeholder="Ex. Melbourne" formControlName="property_address" cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+                <mat-error *ngIf="propertyForm. get('property_address')!.hasError('required')"> Please Enter Property
+                    address</mat-error>
+            </mat-form-field>
+            <mat-label>returns</mat-label>
+            <mat-form-field appearance="outline">
+               
+                <input matInput placeholder="Ex. 2" formControlName="returns">
+                <mat-error *ngIf="propertyForm. get('returns')!.hasError('required')"> Please Enter returns</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-label>LVR</mat-label>
+            <mat-form-field appearance="outline">
+                
+                <input matInput formControlName="LVR">
+                <mat-error *ngIf="propertyForm. get('LVR')!.hasError('required')"> Please Enter LVR</mat-error>
+            </mat-form-field>
+            <mat-label>TERM</mat-label>
+            <mat-form-field appearance="outline">
+               
+                <input matInput formControlName="term">
+                <mat-error *ngIf="propertyForm. get('term')!.hasError('required')"> Please Enter Term</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Description</mat-label>
+            <mat-form-field appearance="outline">
+                
+                <input matInput formControlName="desc">
+                <mat-error *ngIf="propertyForm. get('desc')!.hasError('required')"> Please Enter Description</mat-error>
+            </mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-form-field class="example-full-width">
+                
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput formControlName="status"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of userRoleList " [value]="option.value">
+                        {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Price per share</mat-label>
+            <mat-form-field appearance="outline">
+                
+                <input type="number" matInput formControlName="price_per_share">
+                <mat-error *ngIf="propertyForm.get('price_per_share')!.hasError('required')"> Please Enter Price per share</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Installment Amount</mat-label>
+            <mat-form-field appearance="outline">
+                
+                <input type="number" matInput formControlName="first_installment_price" >
+                <mat-error *ngIf="propertyForm.get('first_installment_price')!.hasError('required')"> Please Enter Price per share</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>State</mat-label>
+            <mat-form-field appearance="outline">
+               
+                
+            <mat-select formControlName="state">
+                <mat-option *ngFor="let option of stateList " [value]="option.value">
+                    {{option.type}}
+                </mat-option>
+            </mat-select>
+                <mat-error *ngIf="propertyForm. get('state')!.hasError('required')"> Please select state</mat-error>
+            </mat-form-field>
+           </div>
+           <div>
+            <mat-label>Property Type</mat-label>
+            <mat-form-field appearance="outline">
+               
+               
+                <mat-select formControlName="prop_type">
+                    <mat-option *ngFor="let option of propertyTypeList " [value]="option.value">
+                        {{option.type}}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field>
+                <mat-error *ngIf="propertyForm. get('prop_type')!.hasError('required')"> Please select property type</mat-error>
+         
+        </div>
+        <div>
+            <label style="display: block; margin: .8em 0 .2em">Gallery</label>
+            <kendo-fileselect formControlName="files" (select)="onFileSelect($event)" [multiple]="true">
+            </kendo-fileselect>
+            <label style="display: block; margin: .8em 0 .2em">Location Map</label>
+            <kendo-fileselect formControlName="files" (select)="onMapFileSelect($event)" [multiple]="true">
+            </kendo-fileselect>
+            <label style="display: block; margin: .8em 0 .2em">Subdivision Plan</label>
+
+            <kendo-fileselect formControlName="files" (select)="onSubDivisionFileSelect($event)" [multiple]="true">
+            </kendo-fileselect>
+        </div>
+    </div>
+    <div *ngIf="data">
+        <div>
+            <div>
+                <div class="container">
+
+                    <mat-card class="align">
+                        <mat-card-header>
+
+
+                        </mat-card-header>
+
+                        <mdb-carousel>
+                            <mdb-carousel-item *ngFor="let slide of imageData ">
+                                <div>
+                                    <img style='height: 200px; width: 100%; object-fit: contain'
+                                        src='https://wellkinsstorageprod.blob.core.windows.net/{{slide.property_img}}' />
+                                </div>
+                                <mat-card-footer>
+
+                                    <button mat-raised-button style='width: 30px' color="primary"
+                                        aria-label="Example mini fab with a heart icon"
+                                        (click)="onDeleteImage(slide.id)">
+                                        Delete
+                                    </button>
+                                </mat-card-footer>
+                            </mdb-carousel-item>
+
+                        </mdb-carousel>
+
+
+                    </mat-card>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" (click)="onFormSubmit()">{{data ? 'Update': 'Save'}}</button>
+    </div>
+</form>

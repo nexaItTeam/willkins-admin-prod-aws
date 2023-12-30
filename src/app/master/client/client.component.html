@@ -1,0 +1,67 @@
+<div class="main-body">
+    <app-loader></app-loader>
+
+    <div class="bg-white">
+        <kendo-grid [kendoGridBinding]="gridView" [filterable]="true" [kendoGridSelectBy]="'client_email'"
+            (selectedKeysChange)="selectedKeysChange($event)" [pageSize]="10" [pageable]="true" [selectable]="true">
+            <ng-template kendoGridToolbarTemplate>
+                <kendo-textbox [style.width.px]="165" placeholder="Search in all columns..."
+                    (valueChange)="onFilter($event)"></kendo-textbox>
+                <kendo-grid-spacer></kendo-grid-spacer>
+                <button class="btn btn-primary" type="button" (click)="openEmailDialog()">Send Email</button>
+                <button class="btn btn-dark" kendoGridExcelCommand type="button">Export to Excel</button>
+                <button class="btn btn-info" kendoGridPDFCommand>Export to PDF</button>
+                <button class="btn btn-primary" type="button" (click)="onCreateBrokerClick()">Create Broker</button>
+            </ng-template>
+
+            <kendo-grid-checkbox-column [showSelectAll]="true"></kendo-grid-checkbox-column>
+            <kendo-grid-column field="full_name" title="Full Name">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                   <!--  <span (click)="onfullnameClick(dataItem)" style="color:blue;"><u>{{dataItem.full_name}}</u>
+                        </span> -->
+                        <kendo-floatingactionbutton [svgIcon]="svgIcon" [dialItems]="socialItems"
+                        title="{{dataItem.full_name}}" text="{{dataItem.full_name}}" themeColor="tertiary"  (dialItemClick)="onfullnameClick(dataItem,$event.index)">
+                    </kendo-floatingactionbutton>
+
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="client_email" title="Client Email"> </kendo-grid-column>
+            <kendo-grid-column field="contact_no" title="Contact Number"> </kendo-grid-column>
+            <kendo-grid-column field="active" title="Client Status" [class]="{ 'text-center': true }"
+                [resizable]="false">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.active == 0 ? "Active": "InActive"}}
+                </ng-template>
+            </kendo-grid-column>
+            <!--  <kendo-grid-column
+        field="country"
+        title="Country"
+        [width]="100"
+        [class]="{ 'text-center': true }"
+        [resizable]="false"
+    >
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <img class="flag" [src]="flagURL(dataItem)" [width]="30" />
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column
+        field="is_online"
+        title="Status"
+        [width]="100"
+        [class]="{ 'text-center': true }"
+        [resizable]="false"
+        filter="boolean"
+    >
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span *ngIf="dataItem.is_online === true" class="badge badge-success">Online</span>
+            <span *ngIf="dataItem.is_online === false" class="badge badge-danger">Offline</span>
+        </ng-template>
+    </kendo-grid-column> -->
+
+
+
+            <kendo-grid-pdf fileName="activeClient.pdf" [repeatHeaders]="true" [allPages]="true"></kendo-grid-pdf>
+            <kendo-grid-excel fileName="activeClient.xlsx"></kendo-grid-excel>
+        </kendo-grid>
+    </div>
+</div>

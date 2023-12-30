@@ -1,0 +1,32 @@
+
+<app-loader></app-loader>
+<p>Upload external excel file containing email id here</p>
+<input type="file" (change)="onFileChange($event)" multiple="false" />
+<!-- <table>
+	<tbody>
+		<tr *ngFor="let row of data">
+			<td *ngFor="let val of row">
+				{{val}}
+			</td>
+		</tr>
+	</tbody>
+</table> -->
+<form [formGroup]="emailForm"   >
+   
+
+    <mat-form-field appearance="outline">
+        <mat-label>Subject</mat-label>
+        <input matInput  formControlName="subject">
+        <mat-error *ngIf="emailForm.get('subject')!.hasError('required')"> Please Enter subject </mat-error>
+       
+    </mat-form-field>
+        
+           
+        <ckeditor name="blog description"  matInput rows="6" editorUrl="https://cdn.ckeditor.com/4.14.0/full/ckeditor.js"
+        [config]="ckEditorConfig" formControlName='emailbody' required></ckeditor>
+       
+    <mat-divider></mat-divider>
+
+    <button mat-raised-button  class="m-2" color="accent" (click)="sendEmail()" >Send Email</button>
+    
+</form>

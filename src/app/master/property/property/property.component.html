@@ -1,0 +1,150 @@
+<app-loader></app-loader>
+<div class="main-body">
+  <div class="bg-white">
+
+    <mat-toolbar class="theme-color">
+      <span></span>
+      <span class="example-spacer"></span>
+      <button mat-raised-button (click)="openAddEditEmpForm()">
+        ADD PROPERTY
+      </button>
+    </mat-toolbar>
+
+
+
+    <div class="">
+
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+      </mat-form-field>
+
+      <div class="table-responsive">
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="property_name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> property name </th>
+              <td mat-cell *matCellDef="let row"> {{row.property_name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="property_address">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> property address </th>
+              <td mat-cell *matCellDef="let row"> {{row.property_address}}</td>
+            </ng-container>
+            <ng-container matColumnDef="price_per_share">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price per share </th>
+              <td mat-cell *matCellDef="let row"> {{row.price_per_share}}</td>
+            </ng-container>
+            <ng-container matColumnDef="first_installment_price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Installment Amount </th>
+              <td mat-cell *matCellDef="let row"> {{row.first_installment_price}}</td>
+            </ng-container>
+            <ng-container matColumnDef="returns">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Returns </th>
+              <td mat-cell *matCellDef="let row"> {{row.returns}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="LVR">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> LVR </th>
+              <td mat-cell *matCellDef="let row"> {{row.LVR}}</td>
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="term">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> term </th>
+              <td mat-cell *matCellDef="let row"> {{row.term}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="facility">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Facility </th>
+              <td mat-cell *matCellDef="let row"> {{row.facility}}</td>
+            </ng-container>
+            <ng-container matColumnDef="desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+              <td mat-cell *matCellDef="let row">
+                <div class="table-desc"> {{row.desc}}</div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+              <td mat-cell *matCellDef="let row"> {{row.status}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="state">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> state </th>
+
+
+              <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="fill">
+
+                  <mat-select [(value)]="element.state ">
+                    <mat-option *ngFor="let option of stateList " [value]="option.value" disabled>
+                      {{option.type}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="prop_type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> property type </th>
+
+
+              <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="fill">
+
+                  <mat-select [(value)]="element.prop_type ">
+                    <mat-option *ngFor="let option of propertTypeList " [value]="option.value" disabled>
+                      {{option.type}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="createdAt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Created </th>
+              <td mat-cell *matCellDef="let row"> {{row.createdAt | date : 'MM/dd/yyyy' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="updatedAt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Updated </th>
+              <td mat-cell *matCellDef="let row"> {{row.updatedAt | date : 'MM/dd/yyyy'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+              <td mat-cell *matCellDef="let row">
+                <div class="d-flex">
+                  <button mat-icon-button color="primary" (click)="openEditForm(row)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="deleteProperty(row)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

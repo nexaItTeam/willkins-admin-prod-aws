@@ -1,0 +1,49 @@
+
+
+<div mat-dialog-title>
+    <h1>Enquiry Form</h1>
+</div>
+<form [formGroup]="enquiryForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content>
+        <div >
+           
+            <mat-form-field appearance="outline">
+                <mat-label>Full Name</mat-label>
+                <input matInput placeholder="Ex. John Wilson" formControlName="full_name">
+                <mat-error *ngIf="enquiryForm. get('full_name')!.hasError('required')"> Please Enter Full Name</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div >
+           <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput  formControlName="user_email">
+                <mat-error *ngIf="enquiryForm. get('user_email')!.hasError('required')"> Please Enter Email </mat-error>
+                <mat-error *ngIf="enquiryForm. get('user_email')!.hasError('email')">  Email must be a valid email address
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>contact_no</mat-label>
+                <input matInput  formControlName="contact_no">
+                <mat-error *ngIf="enquiryForm. get('contact_no')!.hasError('required')"> Please Enter Contact No. </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div >
+            <mat-form-field appearance="outline">
+                 <mat-label>location</mat-label>
+                 <input matInput  formControlName="location">
+                 <mat-error *ngIf="enquiryForm. get('location')!.hasError('required')"> Please Enter location </mat-error>
+             </mat-form-field>
+             <mat-form-field appearance="outline">
+                 <mat-label>Comments</mat-label>
+                 <input matInput  formControlName="description">
+                 <mat-error *ngIf="enquiryForm. get('description')!.hasError('required')"> Please Enter Comments </mat-error>
+             </mat-form-field>
+         </div>
+    </div>
+    <div mat-dialog-actions >
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">Send</button>
+    </div>
+</form>

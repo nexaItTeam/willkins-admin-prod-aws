@@ -1,0 +1,74 @@
+<div class="main-body">
+    <app-loader></app-loader>
+
+    <div class="bg-white">
+        <kendo-grid [data]="dataSource" [filterable]="true" [pageSize]="10" [pageable]="true"
+            [selectable]="true" [groupable]="true" [group]="groups" (groupChange)="groupChange($event)" [resizable]="true">
+            <ng-template kendoGridToolbarTemplate>
+                <kendo-textbox [style.width.px]="165" placeholder="Search in all columns..."
+                    (valueChange)="onFilter($event)"></kendo-textbox>
+                <kendo-grid-spacer></kendo-grid-spacer>
+                <button class="btn btn-info" kendoGridPDFCommand>Export to PDF</button>
+                <button class="btn btn-dark" kendoGridExcelCommand type="button">Export to Excel</button>
+            </ng-template>
+
+            <kendo-grid-column field="client_id" title="Investor Number"> </kendo-grid-column>
+            <kendo-grid-column field="enq_client_data.full_name" title="Investor Name">
+
+            </kendo-grid-column>
+            <kendo-grid-column field="enq_form_data.investor_form_type" title="Investor Type">
+
+            </kendo-grid-column>
+            <kendo-grid-column field="order_id" title="Investor order number">
+
+            </kendo-grid-column>
+            <kendo-grid-column field="investing_amount" title="Investor Amount"> 
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.investing_amount | currency : 'USD' : 'symbol' : '1.0-0' }}
+                </ng-template>
+                <ng-template kendoGridGroupFooterTemplate  let-aggregates="aggregates">
+                    <span>
+                        Sum: {{aggregates.investing_amount.sum | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </span>
+            </ng-template>
+            </kendo-grid-column>            
+            <kendo-grid-column field="enq_client_data.full_name" title="Client Status" [class]="{ 'text-center': true }"
+            [resizable]="false">
+           </kendo-grid-column>
+        
+          
+            <kendo-grid-column field="enq_client_data.client_email" title="Investor Email"
+                 >
+
+            </kendo-grid-column>
+           
+            <kendo-grid-column field="enq_client_data.contact_no" title="Investor Contact no"
+                [class]="{ 'text-center': true }" [resizable]="true">
+
+            </kendo-grid-column>
+           
+           
+            <kendo-grid-column field="enq_prop_data.property_name" title="Property Name"
+                [class]="{ 'text-center': true }" [resizable]="true">
+                <ng-template kendoGridGroupHeaderTemplate let-group="group">
+                    <span style="text-decoration: underline;">
+                      {{ group.value }}
+                    </span>
+                  </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="paidStatus" title="Investor application status"
+            [class]="{ 'text-center': true }" [resizable]="true">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.paidStatus == 0 ? "Under Review": dataItem.paidStatus == 1 ? 'Approved' : dataItem.paidStatus == 2 ? 'First Installment Recieved' : dataItem.paidStatus == 3 ? 'Rejected' : 'Payment Done '}}
+            </ng-template>
+            <ng-template kendoGridGroupHeaderTemplate  let-group="group">
+                <span>
+                    {{group.value == 0 ? "Under Review": group.value == 1 ? 'Approved' : group.value == 2 ? 'First Installment Recieved' : group.value == 3 ? 'Rejected' : 'Payment Done '}}
+                </span>
+        </ng-template>
+        </kendo-grid-column>
+            <kendo-grid-pdf fileName="activeClient.pdf" [repeatHeaders]="true" [allPages]="true"></kendo-grid-pdf>
+            <kendo-grid-excel fileName="activeClient.xlsx"></kendo-grid-excel>
+        </kendo-grid>
+    </div>
+</div>

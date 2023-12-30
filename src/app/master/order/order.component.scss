@@ -1,0 +1,81 @@
+.list-item {
+    padding: 0;
+    list-style: none;
+}
+.list-one{
+    margin-right: 30px;
+}
+.list-btn {
+    border: 1px solid #57CF55;
+    color: #57CF55;
+    padding: 9px 20px;
+    border-radius: 3px;
+}
+.btn-amt {
+    padding: 5px 7px;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 3px;
+}
+.border-btm {
+    border-bottom: 2px solid #fff;
+}
+.card-list{
+    font-size: 16px;
+}
+
+
+
+.table-curved {
+    border-collapse: collapse;
+  }
+  .table-curved th {
+    padding: 3px 10px;
+  }
+  .table-curved th:first-child {
+    padding: 6px;
+  }
+  .table-curved td {
+    background-color: #e5e5e5;
+    padding: 6px 10px;
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
+  }
+  .table-curved td:first-child {
+    padding: 6px;
+  
+    background-color: cadetblue;
+    border-radius: 20px 0 0 20px !important;
+  }
+  .table-curved td:last-child {
+    border-radius: 0 25px 25px 0 !important;
+  }
+  .table-curved tr:hover td:not(:first-child) {
+    background-color: #c5c5c5;
+  }
+  .table-curved tr.blue td:first-child {
+    background-color: cornflowerblue;
+  }
+  .table-curved tr.green td:first-child {
+    background-color: forestgreen;
+  }
+  .mat-column-emptycolumn {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    width: 18% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  
+  th.backgroundcolor{
+    background-color: rgba(41, 48, 66, 1);
+color: white;
+  }

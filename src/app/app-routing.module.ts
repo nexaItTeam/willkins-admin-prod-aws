@@ -17,6 +17,7 @@ import { ViewOrderComponent } from './master/view-order/view-order.component';
 import { InvestorTabComponent } from './master/client-report/investor-tab/investor-tab.component';
 import { InvoiceComponent } from './master/invoice/invoice.component';
 import { UnitCertificateComponent } from './master/unit-certificate/unit-certificate.component';
+import { BlogListComponent } from './master/blog-list/blog-list.component';
 
 
 
@@ -40,6 +41,11 @@ const routes: Routes = [
   {
     path: 'blog',
     component: BlogComponent,
+    canActivate: [roleGuardGuard]
+  },
+  {
+    path: 'viewblog',
+    component: BlogListComponent,
     canActivate: [roleGuardGuard]
   },
   {

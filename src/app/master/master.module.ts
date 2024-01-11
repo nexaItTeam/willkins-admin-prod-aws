@@ -41,6 +41,7 @@ import { ViewOrderTscComponent } from './view-order-tsc/view-order-tsc.component
 import { UnitCertificateComponent } from './unit-certificate/unit-certificate.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { BlogListComponent } from './blog-list/blog-list.component';
 @NgModule({
   declarations: [
     PropertyComponent,
@@ -63,7 +64,8 @@ import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
     InvestorTabComponent,
     ViewOrderTscComponent,
     UnitCertificateComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    BlogListComponent
   ],
   imports: [
     InputsModule,

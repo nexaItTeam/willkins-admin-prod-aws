@@ -6,10 +6,14 @@
                 <mat-card-title class="p-2">ADD POST</mat-card-title>
 
             </mat-card-header>
-
+            <mat-toolbar class="theme-color">
+                <span></span>
+                <span class="example-spacer"></span>
+             
+            </mat-toolbar>
             <mat-divider></mat-divider>
 
-            <form [formGroup]="blogForm" (ngSubmit)="onFormSubmit()">
+            <form [formGroup]="blogForm">
                 <mat-card-content class="p-3">
 
                     <div class="row">
@@ -22,11 +26,29 @@
                             </mat-form-field>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <mat-label>Blog header Image</mat-label>
+                            <ckeditor  editorUrl="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js" required [config]="ckeConfig" formControlName='URL' required>
+                            </ckeditor>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <mat-label>Blog Summary</mat-label>
+                            <ckeditor editorUrl="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js" required [config]="ckeConfig" formControlName='blog_body' required>
+                            </ckeditor>
+                        </div>
+                    </div>
 
 
-                    <ckeditor name="blog description" matInput rows="6"
+                    <!-- <ckeditor name="blog description" matInput rows="6"
                         editorUrl="https://cdn.ckeditor.com/4.14.0/full/ckeditor.js" [config]="ckEditorConfig"
-                        formControlName='blog_desc' required></ckeditor>
+                        formControlName='blog_desc' required></ckeditor> -->
+                    <div class="row">
+                        <mat-label>Blog Description</mat-label>
+                        <ckeditor editorUrl="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js" required
+                            [config]="ckeConfig" formControlName='blog_desc' required>
+                        </ckeditor>
+                    </div>
                     <!-- <mat-error *ngIf="body.errors?.required && body.touched">Body text is required.</mat-error>
             <mat-error *ngIf="body.errors?.minlength">A minimum of 20 characters is required.</mat-error> -->
 
@@ -40,9 +62,10 @@
                 <mat-divider></mat-divider>
 
                 <div class="px-3 py-3">
-                    <button mat-raised-button type="submit" class="me-2" color="accent">ADD</button>
-                    <button mat-raised-button type="submit" class="me-2"
-                        style="background-color: orange;">UPDATE</button>
+                    <button mat-raised-button type="submit" class="me-2" color="accent"
+                        (click)="onFormSubmit()">ADD</button>
+                    <button mat-raised-button class="me-2" style="background-color: orange;"
+                        (click)="onblogUpdate()">UPDATE</button>
                 </div>
             </form>
 

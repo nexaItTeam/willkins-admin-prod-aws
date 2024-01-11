@@ -55,14 +55,14 @@ export class SideNavbarComponent implements OnInit {
     
     routerLink: "/client"
 },
+
   {
-      text: "Blog",
-      icon: "people",
-      allowedRoles:['admin','blog'],
-      
-      routerLink: "/blog"
-  },
-  
+    text: "Blog",
+    icon: "people",
+    allowedRoles:['admin','blog'],
+    
+    routerLink: "/viewblog"
+},
   {
     text: "Order",
     icon: "analytics",

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from 'src/app/shared/master.service';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
@@ -11,17 +11,21 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 export class BlogComponent implements OnInit{
   blogForm!:FormGroup
   public result:any
-  ckEditorConfig: any = { toolbar: [
-    ['Source', 'Templates', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat'],
-    [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
-    [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ],
-    [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ],
-    [ 'Link', 'Unlink', 'Anchor' ],
-    [ 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ],
-    [ 'Styles', 'Format', 'Font', 'FontSize' ],
-    [ 'TextColor', 'BGColor' ],
-    [ 'Maximize', 'ShowBlocks' ]
-    ] };
+  ckeConfig: any;
+  headerckeConfig: any;
+  public atttachments: any = []
+  @ViewChild('myckeditor') ckeditor: any;
+  // ckEditorConfig: any = { toolbar: [
+  //   ['Source', 'Templates', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat'],
+  //   [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+  //   [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ],
+  //   [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ],
+  //   [ 'Link', 'Unlink', 'Anchor' ],
+  //   [ 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ],
+  //   [ 'Styles', 'Format', 'Font', 'FontSize' ],
+  //   [ 'TextColor', 'BGColor' ],
+  //   [ 'Maximize', 'ShowBlocks' ]
+  //   ] };
 constructor(private _fb:FormBuilder, private _masterService: MasterService,
   public sanitizer: DomSanitizer){}
   ngOnInit(): void {
@@ -33,20 +37,39 @@ constructor(private _fb:FormBuilder, private _masterService: MasterService,
        
       
     });
-    this.GetBlog()
+    this.ckeConfig = {
+      extraPlugins: 'uploadimage',
+      uploadUrl:
+        'https://ckeditor.com/apps/ckfinder/3.4.5/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+
+      // Configure your file manager integration. This example uses CKFinder 3 for PHP.
+      filebrowserBrowseUrl:
+        'https://ckeditor.com/apps/ckfinder/3.4.5/ckfinder.html',
+      filebrowserImageBrowseUrl:
+        'https://ckeditor.com/apps/ckfinder/3.4.5/ckfinder.html?type=Images',
+      filebrowserUploadUrl:
+        'https://ckeditor.com/apps/ckfinder/3.4.5/core/connector/php/connector.php?command=QuickUpload&type=Files',
+      filebrowserImageUploadUrl:
+        'https://ckeditor.com/apps/ckfinder/3.4.5/core/connector/php/connector.php?command=QuickUpload&type=Images',
+        
+    };
+  
+    if(this._masterService.blogData.length !=0){
+      this.blogForm.patchValue(this._masterService.blogData)
+    }
   }
   onFormSubmit() {
    // this.spinner.show()
-   debugger
+ 
     if (this.blogForm.valid) {
       
          var body={
           
             "blog": {
-                "blog_title": "Lorem Ipsum",
+                "blog_title": this.blogForm.controls['blog_title'].value,
                 "blog_desc":  this.blogForm.controls['blog_desc'].value,
-                "blog_body": "thee style is inLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.1)these is a.2)these is another",
-                "URL":"www.test.com"
+                "blog_body": this.blogForm.controls['blog_body'].value,
+                "URL":this.blogForm.controls['URL'].value,
             }
         
        }
@@ -68,24 +91,38 @@ constructor(private _fb:FormBuilder, private _masterService: MasterService,
     }
   
   }
-  public GetBlog(){
+  onblogUpdate(){
     debugger
-    this._masterService
-    .getBlogData()
-   .subscribe({
-      next: (val: any) => {
-       //this.result=val.getAllBlog.rows[7]
-       this.result=this.sanitizer.bypassSecurityTrustHtml(val.getAllBlog.rows[6].blog_desc);
-      },
-      error: (err: any) => {
-       console.error(err);
-      },
-    });
-
-
-
-
-
-
+    if (this.blogForm.valid) {
+      
+      var body={
+       
+         "blogs": {
+             "id": this._masterService.blogData.id,
+             "blog_title": this.blogForm.controls['blog_title'].value,
+             "blog_desc":  this.blogForm.controls['blog_desc'].value,
+             "blog_body": this.blogForm.controls['blog_body'].value,
+             "URL":this.blogForm.controls['URL'].value,
+         }
+     
+    }
+      this._masterService
+        .updateBlogData(body)
+       .subscribe({
+          next: (val: any) => {
+            alert('Blog details update!');
+            
+          },
+          error: (err: any) => {
+           console.error(err);
+          },
+        });
+   
+ }else{
+   alert("Please fill the form correctly")
+  
+ }
   }
+
+  
 }

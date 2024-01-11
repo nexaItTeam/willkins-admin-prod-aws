@@ -8,6 +8,7 @@ import { environment } from 'src/environment/env'
 })
 export class MasterService {
   //store invoice and unit certificate in these variable
+  public blogData:any
   public invoiceData:any
   public orderData: any
   public propertyData = []
@@ -101,9 +102,13 @@ export class MasterService {
     const headers = this.getRequestHeaders(this._sharedService.isloggedin);
     return this._http.post(environment.BLOG_ENDPOINT + 'add', data, headers);
   }
-  getBlogData() {
+  updateBlogData(data: any) {
     const headers = this.getRequestHeaders(this._sharedService.isloggedin);
-    return this._http.post(environment.BLOG_ENDPOINT + 'getAll', [], headers);
+    return this._http.post(environment.BLOG_ENDPOINT + 'update', data, headers);
+  }
+  getBlogData() {
+   // const headers = this.getRequestHeaders(this._sharedService.isloggedin);
+    return this._http.post(environment.BLOG_ENDPOINT + 'getAll', []);
   }
   activateClient(data: any) {
     const headers = this.getRequestHeaders(this._sharedService.isloggedin);

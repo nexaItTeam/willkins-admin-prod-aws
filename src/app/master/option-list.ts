@@ -99,5 +99,9 @@ export const domesticcomapnyList=[{
           {
             type:"Rental",
             value:2
+          } ,
+          {
+            type:"Mortgage",
+            value:3
           } 
     ]

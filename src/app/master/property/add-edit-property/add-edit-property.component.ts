@@ -95,6 +95,7 @@ export class AddEditPropertyComponent implements OnInit {
             "desc": this.propertyForm.controls['desc'].value,
             "status": this.propertyForm.controls['status'].value,
             "price_per_share":this.propertyForm.controls['price_per_share'].value,
+            "prop_type":this.propertyForm.controls['prop_type'].value,
             "first_installment_price":this.propertyForm.controls['first_installment_price'].value,
           }
 
@@ -130,6 +131,7 @@ export class AddEditPropertyComponent implements OnInit {
             "desc": this.propertyForm.controls['desc'].value,
             "status": this.propertyForm.controls['status'].value,
             "price_per_share":this.propertyForm.controls['price_per_share'].value,
+            "prop_type":this.propertyForm.controls['prop_type'].value,
             "first_installment_price":this.propertyForm.controls['first_installment_price'].value,
           }
         }

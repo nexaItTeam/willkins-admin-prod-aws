@@ -103,6 +103,7 @@ export class ViewOrderComponent implements OnInit {
   maxDate: Date;
   Date: any
   public canProceed: boolean = false
+  public clientNumber: string | number
   //download pdf
 
   @ViewChild('IndividualData') IndividualData!: ElementRef;
@@ -116,11 +117,12 @@ export class ViewOrderComponent implements OnInit {
 
   constructor(private _fb: FormBuilder, public _commonService: MasterService, private router: ActivatedRoute,
     public spinner: NgxSpinnerService, public route: Router, breakpointObserver: BreakpointObserver,
-    private location:Location,public datepipe: DatePipe) {
+    private location: Location, public datepipe: DatePipe) {
 
     this.clientId = sessionStorage.getItem('id')
+
     this.maxDate = new Date();
-    
+
 
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
@@ -606,12 +608,12 @@ export class ViewOrderComponent implements OnInit {
     this.Director = this.f5['Director'] as FormArray;
     this.Director.push(this.createDirector());
     //add only if option are compan otherwise restrain
-   /*  if (this.clientIdForm.get('client_type').value != 'Unregulated Corporate' && this.clientIdForm.get('client_type').value != 'Regulated Corporate') {
-      this.clientDeclarationAttachments = this.f3['clientDeclarationAttachments'] as FormArray
-      this.clientDeclarationAttachments.push(this.createDeclarationAttachment(i))
-    } */
+    /*  if (this.clientIdForm.get('client_type').value != 'Unregulated Corporate' && this.clientIdForm.get('client_type').value != 'Regulated Corporate') {
+       this.clientDeclarationAttachments = this.f3['clientDeclarationAttachments'] as FormArray
+       this.clientDeclarationAttachments.push(this.createDeclarationAttachment(i))
+     } */
     this.clientDeclarationAttachments = this.f3['clientDeclarationAttachments'] as FormArray
-      this.clientDeclarationAttachments.push(this.createDeclarationAttachment(i))
+    this.clientDeclarationAttachments.push(this.createDeclarationAttachment(i))
   }
   removeItem(idx: number): void {
 
@@ -1133,11 +1135,11 @@ export class ViewOrderComponent implements OnInit {
             this.onaddLevel(0)
             break;
           case 'Regulated Corporate':
-          //  this.onaddTrusteeLevel(0)
+            //  this.onaddTrusteeLevel(0)
             this.onaddDirectorLevel(0)
             break;
           case 'Unregulated Corporate':
-           // this.onaddTrusteeLevel(0)
+            // this.onaddTrusteeLevel(0)
             this.onaddDirectorLevel(0)
             this.onaddLevel(0)
             break;
@@ -1194,7 +1196,7 @@ export class ViewOrderComponent implements OnInit {
     this.clientFormA.reset();
     this.clientFormB.reset();
     this.clientFormC.reset();
-   
+
     this.clientFormD.reset();
     this.clientGeneralDetails.reset();
     this.clientIdentificationDetails.reset();
@@ -1213,7 +1215,7 @@ export class ViewOrderComponent implements OnInit {
 
     this.Trustee = this.f4['Trustee'] as FormArray;
     this.Trustee.controls = []
-  
+
     this.Director = this.f5['Director'] as FormArray
     this.Director.controls = []
     this.approvalMatrices = this.f['approvalMatrices'] as FormArray
@@ -1994,27 +1996,27 @@ export class ViewOrderComponent implements OnInit {
       }
 
       this.clientDeclarationAttachments = this.f3['clientDeclarationAttachments'] as FormArray;
-      this.f3?.clientDeclarationAttachments['controls'][0]?.controls?.signature_1_name?.setValue(this.clientFormA.get('givennames').value + " " + (this.clientFormA.get('middlename').value != null ? this.clientFormA.get('middlename').value : ' ')  + " " + this.clientFormA.get('surname').value)
+      this.f3?.clientDeclarationAttachments['controls'][0]?.controls?.signature_1_name?.setValue(this.clientFormA.get('givennames').value + " " + (this.clientFormA.get('middlename').value != null ? this.clientFormA.get('middlename').value : ' ') + " " + this.clientFormA.get('surname').value)
       this.f3?.clientDeclarationAttachments['controls'][0]?.controls?.signature_1_title?.setValue(this.clientFormA.get('title').value)
       this.f3?.clientDeclarationAttachments['controls'][0]?.controls?.signature_1_date?.setValue(this.Date)
 
 
       for (let i = 0; i < this.clientFormA.get('jointInvestor').value.length; i++) {
 
-        this.f3.clientDeclarationAttachments['controls'][i + 1]?.controls?.signature_1_name?.setValue(this.f1?.jointInvestor['controls'][i].controls.givennames.value + " " + (this.f1?.jointInvestor['controls'][i].controls.middlename.value != null ? this.f1?.jointInvestor['controls'][i].controls.middlename.value : ' ' )+ " " +this.f1?.jointInvestor['controls'][i].controls.surname.value)
+        this.f3.clientDeclarationAttachments['controls'][i + 1]?.controls?.signature_1_name?.setValue(this.f1?.jointInvestor['controls'][i].controls.givennames.value + " " + (this.f1?.jointInvestor['controls'][i].controls.middlename.value != null ? this.f1?.jointInvestor['controls'][i].controls.middlename.value : ' ') + " " + this.f1?.jointInvestor['controls'][i].controls.surname.value)
         this.f3.clientDeclarationAttachments['controls'][i + 1]?.controls?.signature_1_title?.setValue(this.f1?.jointInvestor['controls'][i].controls.title.value)
 
         this.f3.clientDeclarationAttachments['controls'][i + 1]?.controls?.signature_1_date?.setValue(this.Date)
       }
     } else { }
     if (stepLabel == "Declaration" && (this.clientIdForm.get('client_type').value != "Individual" && this.clientIdForm.get('client_type').value != "Company" && this.clientIdForm.get('client_type').value != "Australian public company"
-    && this.clientIdForm.get('client_type').value != "Unregulated Corporate" && this.clientIdForm.get('client_type').value != "Regulated Corporate")) {
+      && this.clientIdForm.get('client_type').value != "Unregulated Corporate" && this.clientIdForm.get('client_type').value != "Regulated Corporate")) {
       if (!this.showTaxFieldY) {
         this.pushDeclaration("Trust")
       }
       for (let i = 0; i < this.clientFormC.get('Trustee').value.length; i++) {
 
-        this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_name?.setValue(this.f4?.Trustee['controls'][i].controls.givennames.value + " " + (this.f4?.Trustee['controls'][i].controls.middlename.value != null ? this.f4?.Trustee['controls'][i].controls.middlename.value  : ' ' )+ " " + this.f4?.Trustee['controls'][i].controls.surname.value)
+        this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_name?.setValue(this.f4?.Trustee['controls'][i].controls.givennames.value + " " + (this.f4?.Trustee['controls'][i].controls.middlename.value != null ? this.f4?.Trustee['controls'][i].controls.middlename.value : ' ') + " " + this.f4?.Trustee['controls'][i].controls.surname.value)
         this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_title?.setValue(this.f4?.Trustee['controls'][i].controls.title.value)
         this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_date?.setValue(this.Date)
 
@@ -2030,7 +2032,7 @@ export class ViewOrderComponent implements OnInit {
       }
       for (let i = 0; i < this.clientCompany.get('Director').value.length; i++) {
 
-        this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_name?.setValue(this.f5?.Director['controls'][i].controls.directornames.value + " " + (this.f5?.Director['controls'][i].controls.middlename.value != null ? this.f5?.Director['controls'][i].controls.middlename.value : ' ')+ " "+ this.f5?.Director['controls'][i].controls.surname.value)
+        this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_name?.setValue(this.f5?.Director['controls'][i].controls.directornames.value + " " + (this.f5?.Director['controls'][i].controls.middlename.value != null ? this.f5?.Director['controls'][i].controls.middlename.value : ' ') + " " + this.f5?.Director['controls'][i].controls.surname.value)
         this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_title?.setValue(this.f5?.Director['controls'][i].controls.title.value)
         this.f3.clientDeclarationAttachments['controls'][i].controls?.signature_1_date?.setValue(this.Date)
       }
@@ -2042,7 +2044,7 @@ export class ViewOrderComponent implements OnInit {
         this.pushDeclaration('Company')
       }
       for (let i = 0; i < this.clientCompany.get('Director').value.length; i++) {
-        this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_name?.setValue(this.f5?.Director['controls'][i].controls.directornames.value + " " + (this.f5?.Director['controls'][i].controls.middlename.value != null ? this.f5?.Director['controls'][i].controls.middlename.value : ' ' )+ " " + this.f5?.Director['controls'][i].controls.surname.value)
+        this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_name?.setValue(this.f5?.Director['controls'][i].controls.directornames.value + " " + (this.f5?.Director['controls'][i].controls.middlename.value != null ? this.f5?.Director['controls'][i].controls.middlename.value : ' ') + " " + this.f5?.Director['controls'][i].controls.surname.value)
         this.f3.clientDeclarationAttachments['controls'][i]?.controls?.signature_1_title?.setValue(this.f5?.Director['controls'][i].controls.title.value)
         this.f3.clientDeclarationAttachments['controls'][i].controls.signature_1_date.setValue(this.Date)
 
@@ -2216,7 +2218,7 @@ export class ViewOrderComponent implements OnInit {
 
         this.clientDeclarationAttachments.push(this._fb.group({
 
-          signature_1_name: [this.formValue?.form_a?.givennames + " " + (this.formValue?.form_a?.middlename !=null ? this.formValue?.form_a?.middlename : ' ') + " " + this.formValue?.form_a?.surname],
+          signature_1_name: [this.formValue?.form_a?.givennames + " " + (this.formValue?.form_a?.middlename != null ? this.formValue?.form_a?.middlename : ' ') + " " + this.formValue?.form_a?.surname],
           signature_1_date: [new Date().toDateString()],
           signature_1_title: [this.formValue?.form_a?.title],
           signaturefilename: [],
@@ -2236,7 +2238,7 @@ export class ViewOrderComponent implements OnInit {
             signature_1_date: [new Date().toDateString()],
             signature_1_title: [],
             signaturefilename: [this.canEdit ? this.formValue?.form_g?.clientDeclarationAttachments[i]?.signaturefilename : null],
-           
+
             designation: [this.formValue?.form_g?.clientDeclarationAttachments[i]?.designation]
           })
           );
@@ -2255,8 +2257,8 @@ export class ViewOrderComponent implements OnInit {
             signature_1_name: [],
             signature_1_date: [new Date().toDateString()],
             signature_1_title: [],
-            signaturefilename: [ this.canEdit ? this.formValue?.form_g?.clientDeclarationAttachments[i]?.signaturefilename : null],
-           
+            signaturefilename: [this.canEdit ? this.formValue?.form_g?.clientDeclarationAttachments[i]?.signaturefilename : null],
+
           })
           );
         }
@@ -2271,8 +2273,8 @@ export class ViewOrderComponent implements OnInit {
             signature_1_name: [],
             signature_1_date: [new Date().toDateString()],
             signature_1_title: [],
-            signaturefilename: [ this.canEdit ? this.formValue?.form_g?.clientDeclarationAttachments[i]?.signaturefilename : null],
-          
+            signaturefilename: [this.canEdit ? this.formValue?.form_g?.clientDeclarationAttachments[i]?.signaturefilename : null],
+
             designation: [this.formValue?.form_g?.clientDeclarationAttachments[i]?.designation]
           })
           );
@@ -2447,7 +2449,7 @@ export class ViewOrderComponent implements OnInit {
     if (this._commonService.orderData.length > 0) {
       this.canEdit = true
       this.spinner.show()
-      this.Date =this.datepipe.transform(this._commonService.orderData[0].createdAt, 'dd/MM/yyyy');
+      this.Date = this.datepipe.transform(this._commonService.orderData[0].createdAt, 'dd/MM/yyyy');
 
       this.onInvestorChange(this._commonService.orderData[0].enq_form_data.investor_form_type)
       this.formValue = this._commonService.orderData[0].enq_form_data
@@ -2467,7 +2469,7 @@ export class ViewOrderComponent implements OnInit {
       this.getFormArrayValue();
       this.pushSign_Declaration();
 
-
+      this.clientNumber = this._commonService.orderData[0].enq_client_data.client_id
       this.spinner.hide()
     } else {
       //this.patchFormValue()
@@ -2478,7 +2480,7 @@ export class ViewOrderComponent implements OnInit {
   }
 
 
- 
+
 
 
 
@@ -2570,7 +2572,7 @@ export class ViewOrderComponent implements OnInit {
       })
 
     }
-   
+
     const body = {
       clients
     }
@@ -2586,7 +2588,7 @@ export class ViewOrderComponent implements OnInit {
     // )
   }
   //navigate to previuos page
-  navigate(){
+  navigate() {
     this.location.back()
   }
 }

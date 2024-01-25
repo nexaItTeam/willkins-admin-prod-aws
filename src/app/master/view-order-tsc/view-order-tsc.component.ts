@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -11,6 +11,7 @@ import { MasterService } from 'src/app/shared/master.service';
   styleUrls: ['./view-order-tsc.component.scss']
 })
 export class ViewOrderTscComponent implements OnInit{
+  showerror:boolean =false
   ordertscForm:FormGroup;
   transactionData:any
   public orderData:object |any
@@ -29,7 +30,8 @@ ngOnInit(): void {
   this.ordertscForm = this._fb.group({
     amount_paid: [0],
     paidStatus: [''],
-    
+    transaction_date:['',Validators.required],
+    transaction_type:['',Validators.required]
   });
   //patch form value & call get transaction on load
   this.ordertscForm.get('paidStatus').setValue(this.orderData.paidStatus)
@@ -59,9 +61,10 @@ public statusList = [{
 
 // save all details and call api by passing form data
 onSaveClick(){
+  
      this.spinner.show()
-      
-      if(this.ordertscForm.get('amount_paid').value !=0){
+      this.showerror =true
+      if(this.ordertscForm.get('amount_paid').value !=0 && this.ordertscForm.valid){
       this.payload = {
         "order": {
           "order_id": this.orderData.order_id,
@@ -76,16 +79,17 @@ onSaveClick(){
           "prop_id": this.orderData.enq_prop_data.id,
           "investment_unit": this.orderData.investment_unit,
           "investing_amount": this.orderData.investing_amount,
-          "transaction_date": new Date() ,
-          "transaction_type": "Allotment",
+          "transaction_date": this.ordertscForm.get('transaction_date').value,
+          "transaction_type": this.ordertscForm.get('transaction_type').value,
           "units_acquired": this.orderData.investment_unit,
           "units_transferred": 0,
           "units_balance": this.orderData.investment_unit,
           "amount_paid": this.ordertscForm.get('amount_paid').value, 
-          "amount_unpaid": this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value :  this.orderData.amount_unpaid -  this.ordertscForm.get('amount_paid').value
+          "amount_unpaid": this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value :  this.orderData.amount_unpaid -  this.ordertscForm.get('amount_paid').value,
+          
         }
       }
-    }else{
+    }else if(this.ordertscForm.get('amount_paid').value ==0){
       this.payload= {
         "order": {
           "order_id": this.orderData.order_id,
@@ -94,6 +98,10 @@ onSaveClick(){
           "amount_unpaid":this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value :  this.orderData.amount_unpaid -  this.ordertscForm.get('amount_paid').value
         },
       }
+    }else{
+      alert('please fill form correctly')
+      this.spinner.hide()
+      return
     }
 
       this._masterService.updateorderStatus(this.payload).subscribe((res: any) => {

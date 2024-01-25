@@ -44,16 +44,34 @@
           <div class="col-lg-4 col-md-6 mb-3">
             <span>Balance amount: <strong>{{orderData?.amount_unpaid | currency : 'USD' : 'symbol' : '1.0-0'}}</strong></span>
           </div>
-          <!-- <div class="col-lg-4 col-md-6 mb-3">
-            <span class="list-one mr-5">
-              <input type="radio" id="Debit" name="check" value="30">
-              <label for="Debit">Debit</label>
-            </span>
-            <span>
-              <input type="radio" id="Credit" name="check" value="60">
-              <label for="Credit">Credit</label>
-            </span>
-          </div> -->
+          <div class="col-lg-4 col-md-6 mb-2">
+            <label class="label asterix--before">Date of
+               Transaction (MM/DD/YYYY)</label>
+            <mat-form-field>
+                <input style='color:white'[readonly]="true" matInput
+                    [matDatepicker]="picker"
+                    formControlName="transaction_date"
+                     required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix
+                    [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker
+                    #picker></mat-datepicker>
+
+            </mat-form-field>
+            <div *ngIf="showerror && ordertscForm.get('transaction_date')!.hasError('required')" style="color: red;">
+              Transaction date is Required
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-6 mb-3">
+          <span>Description </span>
+        
+          <textarea 
+          formControlName="transaction_type"></textarea>
+          <div *ngIf="showerror && ordertscForm.get('transaction_type')!.hasError('required')" style="color: red;">
+            Description Required
+          </div>
+        </div>
         </div>
       </div>
     </form>
@@ -72,9 +90,14 @@
                 <button class="btn btn-info" kendoGridPDFCommand>Export to PDF</button>
                 <button class="btn btn-dark" kendoGridExcelCommand type="button">Export to Excel</button>
             </ng-template>
-            <kendo-grid-column field="createdAt" title=" Date"> 
+            <kendo-grid-column [hidden]='true'field="createdAt" title=" c Date"> 
+              <ng-template kendoGridCellTemplate let-dataItem>
+                  {{dataItem.createdAt }}
+              </ng-template>
+          </kendo-grid-column>
+            <kendo-grid-column field="transaction_date" title=" Date"> 
                 <ng-template kendoGridCellTemplate let-dataItem>
-                    {{dataItem.createdAt | date :'dd/MM/yyyy' }}
+                    {{dataItem.transaction_date == null ? (dataItem.createdAt | date :'dd/MM/yyyy') : ( dataItem.transaction_date | date :'dd/MM/yyyy')}}
                 </ng-template>
             </kendo-grid-column>
           
@@ -86,11 +109,11 @@
                 </span>
               </ng-template>
         </kendo-grid-column>
-            <kendo-grid-column field="property_name" title="Particulars"
+            <kendo-grid-column field="transaction_type" title="Description"
             [class]="{ 'text-center': true }" [resizable]="true">
-            <ng-template kendoGridGroupHeaderTemplate let-group="group">
+            <ng-template kendoGridGroupHeaderTemplate let-group="group" let-dataItem>
                 <span style="text-decoration: underline;">
-                  {{ group.value }}
+                  {{ group.value  }}
                 </span>
               </ng-template>
         </kendo-grid-column>

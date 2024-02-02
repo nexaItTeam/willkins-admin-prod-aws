@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { MasterService } from 'src/app/shared/master.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common'
+import { MasterService } from 'src/app/shared/master.service';
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
@@ -15,6 +15,9 @@ export class InvoiceComponent {
   public name: any
   public index: number
   public installmentAmount: number
+  public prop_type: string
+  public ARSN: string
+  public Account_number: any
   constructor(public _commonService: MasterService, public router: Router, private location: Location) {
 
     this.invoiceInfo = this._commonService.invoiceData
@@ -22,9 +25,14 @@ export class InvoiceComponent {
     this.Date = this.invoiceInfo[0].createdAt
     this.installmentAmount = this.invoiceInfo[0].enq_prop_data?.first_installment_price
     this.index = this.invoiceInfo[0].enq_form_data?.primary_index
+    this.prop_type = this.invoiceInfo[0].enq_prop_data.prop_type == 3 ? "Wellkins Mortgage Fund" : "Wellkins Capital Fund"
+    this.ARSN = this.invoiceInfo[0].enq_prop_data.prop_type == 3 ? '673 559 576' : '614 577 276'
+    this.Account_number = this.invoiceInfo[0].enq_prop_data.prop_type == 3 ? '900113297' : '899882071'
     this.getUserDetail()
   }
   @ViewChild('dataToExport', { static: false }) public dataToExport: ElementRef;
+
+
 
   public email: any
   public contactno: any

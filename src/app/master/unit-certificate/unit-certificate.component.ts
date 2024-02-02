@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MasterService } from 'src/app/shared/master.service';
 import { Location } from '@angular/common'
 import { DatePipe } from '@angular/common';
+import { MasterService } from 'src/app/shared/master.service';
 @Component({
   selector: 'app-unit-certificate',
   templateUrl: './unit-certificate.component.html',
@@ -24,6 +24,9 @@ export class UnitCertificateComponent {
   date: any
   formType:string
   pipe = new DatePipe('en-US');
+  public prop_type:string
+  public ARSN:string
+  showIndividualInvestname :boolean = true
   constructor(public _commonService: MasterService, public router: Router, private location: Location) {
     
     this.invoiceInfo = this._commonService.invoiceData
@@ -38,8 +41,11 @@ export class UnitCertificateComponent {
     this.index = this.invoiceInfo[0].enq_form_data.primary_index
     this.getUserDetail()
     if (this.invoiceInfo[0].enq_form_data.form_a.jointInvestor.length != 0 && this.invoiceInfo[0].enq_form_data.investor_form_type == "Individual") {
+      this.showIndividualInvestname = false
       this.jointInvestorName(this.invoiceInfo[0].enq_form_data.form_a.jointInvestor)
     }
+    this.prop_type = this.invoiceInfo[0].enq_prop_data.prop_type == 3 ? "Wellkins Mortgage Fund " : "Wellkins Capital Fund"
+    this.ARSN = this.invoiceInfo[0].enq_prop_data.prop_type == 3 ? '673 559 576' : '614 577 276'
   }
   public getUserDetail() {
 

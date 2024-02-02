@@ -28,11 +28,11 @@
             <span>Amount received by client: </span>
             <input type="number" formControlName="amount_paid">
           </div>
-          <div class="col-lg-4 col-md-6 mb-3">
+          <div class="col-lg-4 col-md-6 mb-3" style="background-color:white">
             <mat-form-field appearance="outline">
             <span class="dropdown">  
-              <mat-label>Status</mat-label>
-              <mat-select style="color:#fff;" formControlName="paidStatus">
+              <mat-label style="color:black;">Status</mat-label>
+              <mat-select style="color:black;" formControlName="paidStatus">
               <mat-option *ngFor="let option of statusList " [value]="option.value">
                 {{option.type}}
               </mat-option>
@@ -44,11 +44,11 @@
           <div class="col-lg-4 col-md-6 mb-3">
             <span>Balance amount: <strong>{{orderData?.amount_unpaid | currency : 'USD' : 'symbol' : '1.0-0'}}</strong></span>
           </div>
-          <div class="col-lg-4 col-md-6 mb-2">
-            <label class="label asterix--before">Date of
-               Transaction (MM/DD/YYYY)</label>
-            <mat-form-field>
-                <input style='color:white'[readonly]="true" matInput
+          <div class="col-lg-4 col-md-6 mb-2" style="background-color:white">
+            <label class="label asterix--before" style="color:black">Date of
+               Transaction (DD/MM/YYYY)</label>
+            <mat-form-field appearance="outline">
+                <input style='color:black'[readonly]="true" matInput
                     [matDatepicker]="picker"
                     formControlName="transaction_date"
                      required>

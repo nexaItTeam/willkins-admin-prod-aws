@@ -42,6 +42,7 @@ import { UnitCertificateComponent } from './unit-certificate/unit-certificate.co
 import { InvoiceComponent } from './invoice/invoice.component';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { BlogListComponent } from './blog-list/blog-list.component';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 @NgModule({
   declarations: [
     PropertyComponent,
@@ -87,6 +88,8 @@ import { BlogListComponent } from './blog-list/blog-list.component';
     PDFModule,
     PDFExportModule
   ],
-  providers: [DatePipe]
+  providers: [DatePipe,  
+  { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+  ]
 })
 export class MasterModule { }

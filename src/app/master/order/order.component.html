@@ -113,7 +113,7 @@
                   <!-- <a class="" style="color:red; cursor:grab;" matTooltip="View Entire Application"
                     (click)="viewApplication(row)" [mat-dialog-close]="false"><u>View Application</u></a> -->
                   <button mat-icon-button color="primary" matTooltip="update Application status"
-                    (click)="openEditForm(row,i)">                          
+                    (click)="openEditForm(row,i)" [disabled]="row?.holder_type == 'joint'">                          
                     <mat-icon>edit</mat-icon>
                   </button>
                 </td>

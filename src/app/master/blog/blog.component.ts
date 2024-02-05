@@ -34,8 +34,9 @@ constructor(private _fb:FormBuilder, private _masterService: MasterService,
         "blog_desc":["",] ,
         "blog_body":["",],
         "URL": ["",],
-       
-      
+        "pagemeta_name":[''],
+        "pagemeta_desc":[''],
+        "page_title":['']
     });
     this.ckeConfig = {
       extraPlugins: 'uploadimage',
@@ -70,6 +71,9 @@ constructor(private _fb:FormBuilder, private _masterService: MasterService,
                 "blog_desc":  this.blogForm.controls['blog_desc'].value,
                 "blog_body": this.blogForm.controls['blog_body'].value,
                 "URL":this.blogForm.controls['URL'].value,
+                "pagemeta_name":this.blogForm.controls['pagemeta_name'].value,
+                "pagemeta_desc":this.blogForm.controls['pagemeta_desc'].value,
+                "page_title":this.blogForm.controls['page_title'].value,
             }
         
        }
@@ -103,6 +107,9 @@ constructor(private _fb:FormBuilder, private _masterService: MasterService,
              "blog_desc":  this.blogForm.controls['blog_desc'].value,
              "blog_body": this.blogForm.controls['blog_body'].value,
              "URL":this.blogForm.controls['URL'].value,
+             "pagemeta_name":this.blogForm.controls['pagemeta_name'].value,
+             "pagemeta_desc":this.blogForm.controls['pagemeta_desc'].value,
+             "page_title":this.blogForm.controls['page_title'].value,
          }
      
     }

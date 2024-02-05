@@ -3383,7 +3383,7 @@
 
                                         </div>
 
-                                        <div *ngIf="formValue?.form_f?.trust_files != null && this.showregulated_FR  ">
+                                        <div class="uploadedlink"*ngIf="formValue?.form_f?.trust_files != null && this.showregulated_FR  ">
                                             <a href='{{imageUrl}}{{clientNumber}}{{formValue?.form_f?.trust_files}}' target="_blank">
                                                 view previous Uploaded document</a>
                                         </div>
@@ -3479,7 +3479,7 @@
                                                                     <div class="col-lg-3 col-md-6">
 
 
-                                                                        <div
+                                                                        <div class="uploadedlink"
                                                                             *ngIf="formValue?.form_f.individualAttachments[i]?.individualoption1_files !=null ">
                                                                             <a href='{{imageUrl}}4356{{formValue?.form_f.individualAttachments[i]?.individualoption1_files}}'
                                                                                 target="_blank">
@@ -3528,7 +3528,7 @@
 
                                                                         <p></p>
                                                                     </div>
-                                                                    <div class="col-lg-4 col-md-6"
+                                                                    <div class="col-lg-4 col-md-6" class="uploadedlink"
                                                                         *ngIf="formValue?.form_f.individualAttachments[i]?.individualoption2_files != null ">
                                                                         <a href='{{imageUrl}}4356{{formValue?.form_f?.individualAttachments[i]?.individualoption2_files}}'
                                                                             target="_blank">
@@ -3567,7 +3567,7 @@
                                                                             Please upload file
                                                                         </mat-error>
                                                                     </div>
-                                                                    <div class="col-lg-4 col-md-6"
+                                                                    <div class="col-lg-4 col-md-6"  class="uploadedlink"
                                                                         *ngIf="formValue?.form_f.individualAttachments[i]?.individualoption2_files_2 != null">
                                                                         <a href='{{imageUrl}}4356{{formValue?.form_f?.individualAttachments[i]?.individualoption2_files_2}}'
                                                                             target="_blank">
@@ -3625,7 +3625,7 @@
 
                                         </div>
 
-                                        <div *ngIf="formValue?.form_f?.company_verification_domestic != null  &&  showprivate">
+                                        <div  class="uploadedlink" *ngIf="formValue?.form_f?.company_verification_domestic != null  &&  showprivate">
                                             <a href='{{imageUrl}}{{clientNumber}}{{formValue?.form_f?.company_verification_domestic}}'
                                                 target="_blank">
                                                 view previous uploaded document</a>
@@ -3677,7 +3677,7 @@
                                                 [restrictions]="myRestrictions">
                                             </kendo-fileselect>
                                         </div>
-                                        <div
+                                        <div  class="uploadedlink"
                                             *ngIf="formValue?.form_f?.company_verification_privatedomestic != null && showdomestic">
 
                                             <a href='{{imageUrl}}{{clientNumber}}{{formValue?.form_f?.company_verification_privatedomestic}}'
@@ -3726,7 +3726,7 @@
 
                                         </div>
 
-                                        <div *ngIf="formValue?.form_f?.trust_files != null && showregulatedC_FR">
+                                        <div  class="uploadedlink" *ngIf="formValue?.form_f?.trust_files != null && showregulatedC_FR">
                                             <a href='{{imageUrl}}{{clientNumber}}{{formValue?.form_f?.trust_files}}' target="_blank">
                                                 view previous uploaded document</a>
                                         </div>
@@ -3775,7 +3775,7 @@
 
                                         </div>
 
-                                        <div *ngIf="formValue?.form_f?.trust_files_unregulated != null &&  showUnregulatedC_UR ">
+                                        <div  class="uploadedlink" *ngIf="formValue?.form_f?.trust_files_unregulated != null &&  showUnregulatedC_UR ">
                                             <a href='{{imageUrl}}{{clientNumber}}{{formValue?.form_f?.trust_files_unregulated}}' target="_blank">
                                                 view previous uploaded document</a>
                                         </div>
@@ -3821,7 +3821,7 @@
                                                 [restrictions]="myRestrictions">
                                             </kendo-fileselect>
                                         </div>
-                                        <div *ngIf="formValue?.form_f?.trust_files_unregulated != null && showUnregulated_UR">
+                                        <div  class="uploadedlink" *ngIf="formValue?.form_f?.trust_files_unregulated != null && showUnregulated_UR">
 
                                             <a href='{{imageUrl}}{{clientNumber}}{{formValue?.form_f?.trust_files_unregulated}}'
                                                 target="_blank">

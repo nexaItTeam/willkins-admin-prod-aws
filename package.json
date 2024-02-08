@@ -52,13 +52,13 @@
     "@progress/kendo-theme-default": "^6.5.0",
     "angular-bootstrap-md": "^15.0.0",
     "ckeditor4-angular": "^4.0.1",
+    "crypto-js": "^4.2.0",
     "jquery": "^3.7.0",
     "ngx-spinner": "^16.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.13.0"
-    
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.0",

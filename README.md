@@ -28,4 +28,6 @@
         "user_type": "admin"
 
 
-        
+         var bytes  = CryptoJS.AES.decrypt(val.user, '12345678');
+        var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        console.log(decryptedData)

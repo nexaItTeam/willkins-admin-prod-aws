@@ -33,7 +33,7 @@ export class SideNavbarComponent implements OnInit {
     {
       text: "Master",
       icon: "dashboard",
-      allowedRoles:['admin','TeamLead','LeadGenerator'],
+      allowedRoles:['admin','TeamLead','LeadGenerator','blog'],
       children: [{
         text: "Property",
         icon: "category",
@@ -43,7 +43,7 @@ export class SideNavbarComponent implements OnInit {
     {
         "text": "Enquiry",
         "icon": "layers",
-        allowedRoles:['admin','TeamLead','LeadGenerator'],
+        allowedRoles:['admin','TeamLead','LeadGenerator','blog'],
         "routerLink": "/enquiry"
     },
 ]

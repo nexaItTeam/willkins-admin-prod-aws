@@ -10,69 +10,81 @@ import { MasterService } from 'src/app/shared/master.service';
   selector: 'app-view-order-tsc',
   templateUrl: './view-order-tsc.component.html',
   styleUrls: ['./view-order-tsc.component.scss'],
-  
+
 })
-export class ViewOrderTscComponent implements OnInit{
-  showerror:boolean =false
-  ordertscForm:FormGroup;
-  transactionData:any
-  public orderData:object |any
-  public payload:any
+export class ViewOrderTscComponent implements OnInit {
+  showerror: boolean = false
+  ordertscForm: FormGroup;
+  transactionData: any
+  public orderData: object | any
+  public payload: any
   constructor(private _fb: FormBuilder,
     private _masterService: MasterService,
     private spinner: NgxSpinnerService,
     private router: Router,
     private _dialog: MatDialog,
     private _dialogRef: MatDialogRef<ViewOrderTscComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any){
-      this.orderData = data
-      console.log(data)
-    }
-ngOnInit(): void {
-  this.ordertscForm = this._fb.group({
-    amount_paid: [0],
-    paidStatus: [''],
-    transaction_date:['',Validators.required],
-    transaction_type:['',Validators.required]
-  });
-  //patch form value & call get transaction on load
-  this.ordertscForm.get('paidStatus').setValue(this.orderData.paidStatus)
-  this.getTransaction()
-}
-//status list
-public statusList = [{
-  type: 'Under Review',
-  value: 0
-},
-{
-  type: 'Approved',
-  value: 1
-},
-{
-  type: 'First Installment Recieved',
-  value: 2
-}, {
-  type: 'Rejected',
-  value: 3
-},
-{
-  type: 'Payment Done ',
-  value: 4
-}
-]
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.orderData = data
+    console.log(data)
+  }
+  ngOnInit(): void {
+    this.ordertscForm = this._fb.group({
+      amount_paid: [0],
+      paidStatus: [''],
+      transaction_date: ['', Validators.required],
+      transaction_type: ['', Validators.required]
+    });
+    //patch form value & call get transaction on load
+    this.ordertscForm.get('paidStatus').setValue(this.orderData.paidStatus)
+    this.getTransaction()
+  }
+  //status list
+  public statusList = [{
+    type: 'Under Review',
+    value: 0
+  },
+  {
+    type: 'Approved',
+    value: 1
+  },
+  {
+    type: 'First Installment Recieved',
+    value: 2
+  }, {
+    type: 'Rejected',
+    value: 3
+  },
+  {
+    type: 'Payment Done ',
+    value: 4
+  }
+  ]
 
-// save all details and call api by passing form data
-onSaveClick(){
-  
-     this.spinner.show()
-      this.showerror =true
-      if(this.ordertscForm.get('amount_paid').value !=0 && this.ordertscForm.valid){
+  // save all details and call api by passing form data
+  onSaveClick() {
+    if (this.ordertscForm.get('amount_paid').value != 0) {
+      const rawValue = this.ordertscForm.get('amount_paid').value.replace(/,/g, '');
+
+      // Convert the raw value to a number
+      var numericValue = parseInt(rawValue, 10);
+      // Check if the parsed value is NaN, and if so, set it to 0
+      if (isNaN(numericValue)) {
+        numericValue = 0;
+      }
+      // Update the form control value with the numeric value
+      this.ordertscForm.get('amount_paid').setValue(numericValue);
+    }
+    console.log(this.ordertscForm.value)
+    this.spinner.show()
+    this.showerror = true
+    if (this.ordertscForm.get('amount_paid').value != 0 && this.ordertscForm.valid) {
       this.payload = {
         "order": {
           "order_id": this.orderData.order_id,
           "paidStatus": this.ordertscForm.get('paidStatus').value,
           "amount_paid": this.ordertscForm.get('amount_paid').value,
-          "amount_unpaid":this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value :  this.orderData.amount_unpaid -  this.ordertscForm.get('amount_paid').value
+          "amount_unpaid": this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value : this.orderData.amount_unpaid - this.ordertscForm.get('amount_paid').value
         },
         "transaction": {
           "client_id": this.orderData.enq_client_data.id,
@@ -86,60 +98,91 @@ onSaveClick(){
           "units_acquired": this.orderData.investment_unit,
           "units_transferred": 0,
           "units_balance": this.orderData.investment_unit,
-          "amount_paid": this.ordertscForm.get('amount_paid').value, 
-          "amount_unpaid": this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value :  this.orderData.amount_unpaid -  this.ordertscForm.get('amount_paid').value,
-          
+          "amount_paid": this.ordertscForm.get('amount_paid').value,
+          "amount_unpaid": this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value : this.orderData.amount_unpaid - this.ordertscForm.get('amount_paid').value,
+
         }
       }
-    }else if(this.ordertscForm.get('amount_paid').value ==0){
-      this.payload= {
+    } else if (this.ordertscForm.get('amount_paid').value == 0) {
+      this.payload = {
         "order": {
           "order_id": this.orderData.order_id,
           "paidStatus": this.ordertscForm.get('paidStatus').value,
-          "amount_paid":this.orderData.amount_paid,
-          "amount_unpaid":this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value :  this.orderData.amount_unpaid -  this.ordertscForm.get('amount_paid').value
+          "amount_paid": this.orderData.amount_paid,
+          "amount_unpaid": this.orderData.amount_unpaid == 0 ? this.orderData.investment_unit - this.ordertscForm.get('amount_paid').value : this.orderData.amount_unpaid - this.ordertscForm.get('amount_paid').value
         },
       }
-    }else{
+    } else {
       alert('please fill form correctly')
       this.spinner.hide()
       return
     }
 
-      this._masterService.updateorderStatus(this.payload).subscribe((res: any) => {
-        this.spinner.hide()
-        alert('status updated')
-        this._dialogRef.close(true);
-      },(err)=>{
-        this.spinner.hide()
-        alert('error from server side')
-      }
-      )
-
-
-}
-
-//get transaction data of particular order id
-public getTransaction() {
-  this.spinner.show()
-  const body = {
-    "client_id": this.orderData.client_id,
-    "order_id":this.orderData.order_id,
-    "holder_type":"self",
-    "form_type":this.orderData.enq_form_data.investor_form_type
-  }
-  this._masterService.getTransactionData(body).subscribe({
-    next: (res: any) => {
-
-      this.transactionData = res.get_transaction[0]
+    this._masterService.updateorderStatus(this.payload).subscribe((res: any) => {
       this.spinner.hide()
-    },
-
-
-    error: (err: any) => {
-      alert('error from server side');
-      this.spinner.hide();
+      alert('status updated')
+      this._dialogRef.close(true);
+    }, (err) => {
+      this.spinner.hide()
+      alert('error from server side')
     }
-  });
-}
+    )
+
+
+  }
+
+  //get transaction data of particular order id
+  public getTransaction() {
+    this.spinner.show()
+    const body = {
+      "client_id": this.orderData.client_id,
+      "order_id": this.orderData.order_id,
+      "holder_type": "self",
+      "form_type": this.orderData.enq_form_data.investor_form_type
+    }
+    this._masterService.getTransactionData(body).subscribe({
+      next: (res: any) => {
+
+        this.transactionData = res.get_transaction[0]
+        this.spinner.hide()
+      },
+
+
+      error: (err: any) => {
+        alert('error from server side');
+        this.spinner.hide();
+      }
+    });
+  }
+
+  formatInput(event: any) {
+    // Get the input element and its value
+    const inputElement = event.target;
+    let value = inputElement.value;
+
+    // Remove non-numeric characters and commas
+    value = value.replace(/[^0-9]/g, '');
+
+    // Parse the value as a number
+    const numericValue = parseInt(value, 10);
+
+    // Check if the parsed value is not NaN
+    if (!isNaN(numericValue)) {
+      // Add thousand separators
+      const formattedValue = this.addThousandSeparator(numericValue.toString());
+
+      // Update the form control value
+      this.ordertscForm.get('amount_paid').setValue(formattedValue, { emitEvent: false });
+    }
+  }
+
+
+  private addThousandSeparator(value: string): string {
+    if (!value) return '';
+
+    const parts = value.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+
 }

@@ -26,7 +26,7 @@
           </div>
           <div class="col-lg-4 col-md-6 mb-3">
             <span>Amount received by client: </span>
-            <input type="number" formControlName="amount_paid">
+            <input type="text" formControlName="amount_paid"  (keyup)="formatInput($event)">
           </div>
           <div class="col-lg-4 col-md-6 mb-3" style="background-color:white">
             <mat-form-field appearance="outline">
